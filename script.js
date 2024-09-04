@@ -1,24 +1,30 @@
 let userInput = prompt("Choose R / P / C: ").toUpperCase();
+const RPC = {
+    "R": 0,
+    "P": 1,
+    "C": 2
+}
+let computerInput = Math.trunc(Math.random() * 3)
 
 function matchRPC(match){
     let userInputNr = RPC[match];
-    return winner(userInputNr, computerInput);
+    return getWinner(userInputNr, computerInput);
 }
 
-function ValidChar(char){
-    let output;
-    if(char.length === 1){
-        let regex = char.match(/[RPC]/g);
-        output = regex === null ? "Please refresh and try again" : matchRPC(char)
+function mainGame(userChoice){
+    let result;
+    if(userChoice.length === 1){
+        let regex = userChoice.match(/[RPC]/g);
+        result = regex === null ? "Please refresh and try again" : matchRPC(userChoice)
     } else{
-        output = "Only enter R, P or C";
+        result = "Only enter R, P or C";
     }
 
-    return output;
+    return result;
 
 }
 
-function winner(user, comp){
+function getWinner(user, comp){
     let calc = user - comp;
     if(calc === 0){
         return "It's a tie";
@@ -31,16 +37,10 @@ function winner(user, comp){
 
 
 
-const RPC = {
-    "R": 0,
-    "P": 1,
-    "C": 2
-}
 
-let computerInput = Math.trunc(Math.random() * 3)
 
 // console.log(computerInput);
 
 
 // console.log(matchRPC(userInput));
-console.log(ValidChar(userInput));
+console.log(mainGame(userInput));
