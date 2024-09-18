@@ -42,6 +42,13 @@ function resetAll(){
     reset.classList.toggle("hide");
 }
 
+function gameEnd(){
+    computerScore = 0, userScore = 0;
+    result.classList.toggle("hide");
+    main.classList.toggle("hide");
+    reset.classList.toggle("hide");
+};
+
 for(let btn = 0; btn < rpsBtns.length; btn++){
     rpsBtns[btn].addEventListener("click",() =>{
         computerInput = Math.trunc(Math.random() * 3)
@@ -50,16 +57,10 @@ for(let btn = 0; btn < rpsBtns.length; btn++){
         let winner = getWinner(btn, computerInput);
         if(userScore === 5){
             message.innerHTML = "You are the winner";
-            computerScore = 0, userScore = 0;
-            result.classList.toggle("hide");
-            main.classList.toggle("hide");
-            reset.classList.toggle("hide");
+            gameEnd();
         } else if(computerScore === 5){
             message.innerHTML = "Computer is the winner";
-            computerScore = 0, userScore = 0;
-            result.classList.toggle("hide");
-            main.classList.toggle("hide");
-            reset.classList.toggle("hide");
+            gameEnd();
         }else{
             message.innerHTML = winner;
             userScoreDisplay.innerHTML = userScore;
