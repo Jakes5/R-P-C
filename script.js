@@ -1,61 +1,74 @@
-const rpsList = document.querySelectorAll('.options');
-const title = document.querySelector('.title');
+const main = document.querySelector('.main');
 const result = document.querySelector('.result');
+const message = document.querySelector('.message');
+const userScoreDisplay = document.querySelector('.user-score');
+const compScoreDisplay = document.querySelector('.comp-score');
+const rpsBtns = document.querySelectorAll('.rps-btn');
+const reset = document.querySelector('.reset');
 
+let computerInput, computerScore = 0, userScore = 0;
 
-let userInput = prompt("Choose R / P / S: ").toUpperCase();
 const RPS = {
-    "R": 0,
-    "P": 1,
-    "S": 2
-}
-let computerInput = Math.trunc(Math.random() * 3)
+    0 : "Rock",
+    1 : "Paper",
+    2 : "Scissors"
+ }
 
-function matchRPC(match){
-    let userInputNr = RPS[match];
-    return getWinner(userInputNr, computerInput);
-}
-
-function mainGame(userChoice){
-    let result;
-    if(userChoice.length === 1){
-        let regex = userChoice.match(/[RPS]/g);
-        result = regex === null ? "Please refresh and try again" : matchRPC(userChoice)
-    } else{
-        result = "Only enter R, P or S";
-    }
-
-    return result;
-
-}
-
-function getWinner(user, comp){
-    let calc = user - comp;
+ function getWinner(user, comp){
+    let calc = user - comp;  
     if(calc === 0){
-        return "It's a tie";
+        return `Both picked ${RPS[calc]}. It's a tie!!!`;
     } else if(calc === -2 || calc === 1){
-        return "You win";
+        userScore += 1;
+        return `${RPS[user]} beats ${RPS[comp]}. You win the round!`;
     } else{
-        return "Computer wins";
+        computerScore += 1;
+        return `${RPS[comp]} beats ${RPS[user]}. Computer wins the round!`;
     }
 }
 
+function overallWinner(){
+    if(computerScore === 5){
+        return `COMPUTER WINS!`
+    } else{
+
+    }
+}
+
+function resetAll(){
+    computerScore = 0, userScore = 0, userScoreDisplay.innerHTML = 0, compScoreDisplay.innerHTML = 0, message.innerHTML = "";
+    result.classList.toggle("hide");
+    main.classList.toggle("hide");
+    reset.classList.toggle("hide");
+}
+
+for(let btn = 0; btn < rpsBtns.length; btn++){
+    rpsBtns[btn].addEventListener("click",() =>{
+        computerInput = Math.trunc(Math.random() * 3)
+        // console.log(`Computer selected ${computerInput}`);
+        // console.log(`you selected ${btn}`);
+        let winner = getWinner(btn, computerInput);
+        if(userScore === 5){
+            message.innerHTML = "You are the winner";
+            computerScore = 0, userScore = 0;
+            result.classList.toggle("hide");
+            main.classList.toggle("hide");
+            reset.classList.toggle("hide");
+        } else if(computerScore === 5){
+            message.innerHTML = "Computer is the winner";
+            computerScore = 0, userScore = 0;
+            result.classList.toggle("hide");
+            main.classList.toggle("hide");
+            reset.classList.toggle("hide");
+        }else{
+            message.innerHTML = winner;
+            userScoreDisplay.innerHTML = userScore;
+            compScoreDisplay.innerHTML = computerScore;
+            console.log(computerScore, userScore);
+        }
 
 
+});
+}; 
 
-
-// console.log(computerInput);
-
-
-// console.log(matchRPC(userInput));
-console.log(mainGame(userInput));
-// console.dir(document.querySelector('.result').firstElementChild)
-
-/* Nodelist to Arry */
-// console.log(Array.from(rpsList));
-// rpsList.forEach(function(item, index, items){
-//     console.log(item);
-//     console.log(index);
-//     // console.log(items);
-// });
-
+reset.addEventListener('click', resetAll);

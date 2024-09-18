@@ -11,7 +11,24 @@ body{
 }
 
 .result{
+    display: flex;
+    justify-content: center;
+}
 
+.scores{
+    width: 150px;
+}
+
+.message{
+    padding: 20px;
+    margin-top: -10px;
+
+}
+
+.result, .main, .message, .reset-section{
     text-align: center;
+}
 
+.hide{
+    display: none;
 }
